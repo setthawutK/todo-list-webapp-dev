@@ -1,0 +1,48 @@
+:host {
+  ::ng-deep {
+    .btn-cancel {
+      @apply flex flex-1 justify-center p-4 cursor-pointer rounded-r-none rounded-tl-none;
+      border-top: 1px solid#EBEEF2;
+      border-right: 0.5px solid#EBEEF2;
+
+      &:hover {
+        @apply bg-slate-100 rounded-bl-lg;
+      }
+    }
+
+    .btn-disabled {
+      @apply text-on_base-border-disable bg-base-foreground-disable;
+    }
+
+    .btn-confirm {
+      @apply flex flex-1 justify-center p-4 cursor-pointer rounded-l-none rounded-tr-none;
+      border-top: 1px solid#EBEEF2;
+      border-left: 0.5px solid#EBEEF2;
+
+      &.btn-confirm-delete {
+        @apply text-functional-content-error;
+
+        &:hover {
+          @apply bg-functional-foreground-error_subtle;
+        }
+      }
+
+      &.btn-confirm-success {
+        @apply text-[#2EB1C2];
+      }
+
+      &.btn-confirm-success {
+        &:hover {
+          @apply bg-functional-foreground-success_subtle;
+        }
+      }
+    }
+  }
+}
+
+::ng-deep {
+  .p-dialog .p-dialog-content {
+    @apply rounded-md;
+    padding: 0 !important;
+  }
+}

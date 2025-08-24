@@ -1,0 +1,34 @@
+select {
+  @apply p-3 rounded-lg;
+
+  &:focus-visible {
+    outline-color: #10b981;
+  }
+}
+
+::ng-deep {
+  #calendar-horizontal {
+    .p-dropdown-items-wrapper {
+      transform-origin: bottom; /* Make dropdown expand upwards */
+      top: auto !important; /* Remove default top positioning */
+      bottom: 100%; /* Position the dropdown above the input field */
+      left: 0; /* Align dropdown panel with the input field */
+    }
+    .p-dropdown-items-wrapper.p-dropdown-overlay-visible {
+      transform: translateY(-8px); /* Slightly shift upwards */
+    }
+
+    .p-dropdown {
+      .p-dropdown-trigger {
+        @apply w-0 pr-4;
+      }
+      &:not(.p-disabled).p-focus {
+        box-shadow: none;
+      }
+    }
+    .p-dropdown:nth-of-type(2) {
+      border-left-width: 0px !important;
+      border-right-width: 0px !important;
+    }
+  }
+}

@@ -1,0 +1,82 @@
+@use "sass:meta";
+@layer tailwind-base, primeng, tailwind-utilities;
+
+@layer tailwind-base {
+  @tailwind base;
+}
+
+@layer tailwind-utilities {
+  @tailwind components;
+  @tailwind utilities;
+}
+
+@include meta.load-css("app/styles/common/table.scss");
+@include meta.load-css("app/styles/common/preloading.scss");
+@include meta.load-css("app/styles/common/otp-input.scss");
+@include meta.load-css("app/styles/common/tabview.scss");
+@include meta.load-css("app/styles/common/chip.scss");
+@include meta.load-css("app/styles/common/typography.scss");
+@include meta.load-css("app/styles/common/notify.scss");
+@include meta.load-css("app/styles/common/address.scss");
+@include meta.load-css("app/styles/common/dropdown.scss");
+@include meta.load-css("app/styles/common/tabs.scss");
+
+* {
+  font-family:
+    Kanit,
+    Noto Sans,
+    Noto Sans Thai,
+    sans-serif;
+}
+
+body {
+  color: black;
+  min-height: 100vh;
+}
+
+.icon-white {
+  filter: invert(1);
+}
+
+.text-highlight {
+  color: #F5BF03 !important;
+}
+
+
+// animation
+
+.fade-id {
+  animation: fadeIn 1.5s;
+}
+
+.fade-out {
+  animation: fadeOut 1s;
+}
+
+@keyframes fadeIn {
+  0% {
+    opacity: 0;
+  }
+
+  100% {
+    opacity: 1;
+  }
+}
+
+@keyframes fadeOut {
+  0% {
+    opacity: 1;
+  }
+
+  100% {
+    opacity: 0;
+  }
+}
+
+.required {
+  &::after {
+    content: "*";
+    color: red;
+    margin-left: 5px;
+  }
+}

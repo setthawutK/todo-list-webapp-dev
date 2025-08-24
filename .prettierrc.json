@@ -1,0 +1,58 @@
+{
+  "plugins": [
+    "prettier-plugin-organize-attributes"
+  ],
+  "overrides": [
+    {
+      "files": [
+        "*.js",
+        "*.ts"
+      ],
+      "options": {
+        "endOfLine": "auto",
+        "trailingComma": "all",
+        "tabWidth": 2,
+        "semi": true,
+        "singleQuote": true,
+        "bracketSpacing": true,
+        "bracketSameLine": true,
+        "singleAttributePerLine": true,
+        "printWidth": 140,
+        "arrowParens": "avoid",
+        "parser": "typescript",
+        "attributeSort": "ASC"
+      }
+    },
+    {
+      "files": [
+        "*.html"
+      ],
+      "options": {
+        "printWidth": 140,
+        "singleAttributePerLine": true,
+        "singleQuote": true,
+        "htmlWhitespaceSensitivity": "css",
+        "parser": "angular",
+        "attributeGroups": [
+          "$ANGULAR_OUTPUT",
+          "$ANGULAR_TWO_WAY_BINDING",
+          "$ANGULAR_INPUT",
+          "$ANGULAR_STRUCTURAL_DIRECTIVE",
+          "^class$",
+          "^(id|name)$",
+          "$DEFAULT",
+          "^aria-"
+        ]
+      }
+    },
+    {
+      "files": [
+        "*.json"
+      ],
+      "options": {
+        "parser": "json",
+        "printWidth": 1
+      }
+    }
+  ]
+}

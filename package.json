@@ -1,0 +1,70 @@
+{
+  "name": "todo-list-webapp",
+  "version": "0.0.0",
+  "scripts": {
+    "ng": "ng",
+    "ci:generate-assets": "node  ./ci/generate-assets/task.js",
+    "ci:generate-color-system": "node  ./ci/generate-color-system.js",
+    "start-dev": "ng serve --port 4400 --open -c start-dev --host 0.0.0.0 --disable-host-check",
+    "build": "ng build",
+    "watch": "ng build --watch --configuration development",
+    "test": "ng test",
+    "lint": "npx eslint .",
+    "ci:generate-todo-list-swagger": "openapi-generator-cli generate -i http://103.99.11.216:30899/v3/api-docs -g typescript-angular -o src/app/shared/swagger/todo-list.ts --skip-validate-spec --global-property=models,supportingFiles",
+    "prepare": "husky"
+  },
+  "private": true,
+  "overrides": {
+    "fantasticon": {
+      "glob": "7.2.0"
+    }
+  },
+  "dependencies": {
+    "@angular/animations": "^19.2.1",
+    "@angular/cdk": "^19.2.2",
+    "@angular/common": "^19.2.1",
+    "@angular/compiler": "^19.2.1",
+    "@angular/core": "^19.2.1",
+    "@angular/forms": "^19.2.1",
+    "@angular/material": "^19.2.2",
+    "@angular/platform-browser": "^19.2.1",
+    "@angular/platform-browser-dynamic": "^19.2.1",
+    "@angular/router": "^19.2.1",
+    "@ngx-translate/core": "^16.0.4",
+    "@ngx-translate/http-loader": "^16.0.1",
+    "@openapitools/openapi-generator-cli": "^2.18.4",
+    "@primeng/themes": "^19.1.3",
+    "chart.js": "^4.4.8",
+    "fantasticon": "^2.0.0",
+    "moment": "^2.30.1",
+    "moment-timezone": "^0.5.47",
+    "primeng": "^19.1.3",
+    "rxjs": "~7.8.2",
+    "svg-reorient": "^1.0.3",
+    "swagger-typescript-api": "^13.0.23",
+    "tslib": "^2.8.1",
+    "zone.js": "~0.15.0"
+  },
+  "devDependencies": {
+    "@angular-devkit/build-angular": "^19.2.1",
+    "@angular/cli": "^19.2.1",
+    "@angular/compiler-cli": "^19.2.1",
+    "@eslint/js": "^9.22.0",
+    "@types/jasmine": "~5.1.7",
+    "angular-eslint": "^19.2.1",
+    "autoprefixer": "^10.4.21",
+    "eslint": "^9.22.0",
+    "husky": "^9.1.7",
+    "jasmine-core": "~5.6.0",
+    "karma": "~6.4.4",
+    "karma-chrome-launcher": "~3.2.0",
+    "karma-coverage": "~2.2.1",
+    "karma-jasmine": "~5.1.0",
+    "karma-jasmine-html-reporter": "~2.1.0",
+    "postcss": "^8.5.3",
+    "prettier": "^3.5.3",
+    "prettier-plugin-organize-attributes": "^1.0.0",
+    "tailwindcss": "^3.4.17",
+    "typescript": "~5.8.2"
+  }
+}

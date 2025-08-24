@@ -1,0 +1,22 @@
+<h5 class="text-base font-semibold px-6 pt-6 pb-2 rounded-t-lg">
+  {{ config.data.header }}
+</h5>
+<div class="px-6 py-55 p-6 flex flex-col gap-4">
+  {{ config.data.content }}
+</div>
+
+<div class="flex flex-row">
+  <button
+    (click)="hiddenDialog()"
+    class="btn-cancel"
+  >
+    ยกเลิก
+  </button>
+  <button
+    (click)="onClick()"
+    [class]="config.data.isDelete ? 'btn-confirm-delete' : 'btn-confirm-success'"
+    class="btn-confirm"
+  >
+    {{ config.data.actionLabel }}
+  </button>
+</div>

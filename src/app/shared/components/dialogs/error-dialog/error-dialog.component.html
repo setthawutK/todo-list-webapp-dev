@@ -1,0 +1,23 @@
+<div class="text-center absolute left-0 right-0 -top-120">
+  <div class="bg-white w-160 h-160 rounded-full mx-auto shadow">
+    <i class="mb-i mb-i-close-filled text-[48px] !leading-relaxed text-functional-content-error"></i>
+  </div>
+</div>
+
+<h5 class="text-primary-content-hovler text-lg font-semibold text-center px-6 pt-6 rounded-t-lg">
+  <div [innerHTML]="config.data.header"></div>
+</h5>
+<div class="px-6 py-50 flex flex-col gap-4 text-center">
+  <div [innerHTML]="config.data.content"></div>
+  <!-- {{ config.data.content }} -->
+</div>
+
+<div class="flex flex-row w-full">
+  <p-button
+    (click)="action()"
+    [label]="config.data.actionLabel"
+    class="w-full"
+    styleClass="w-full"
+    size="large"
+  ></p-button>
+</div>

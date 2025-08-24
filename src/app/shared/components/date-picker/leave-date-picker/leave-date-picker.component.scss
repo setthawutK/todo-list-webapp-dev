@@ -1,0 +1,19 @@
+::ng-deep {
+    .p-datepicker-header .p-button-text {
+        color: #080B2A;
+    }
+
+    .p-datepicker-header .p-button:hover {
+        color: #080B2A;
+    }
+
+    .holiday-date {
+        pointer-events: auto !important;
+        color: red !important;
+        font-weight: bold;
+    }
+
+    .p-datepicker {
+        width: 100%;
+    }
+}

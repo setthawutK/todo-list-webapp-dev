@@ -1,0 +1,110 @@
+@if (type === 'horizontal') {
+  <div
+    class="flex flex-row gap-4"
+    id="calendar-horizontal"
+  >
+    <p-select
+      (onChange)="onSelect($event, 0)"
+      [(ngModel)]="valueSelected[0]"
+      [disabled]="disabled"
+      [options]="dates"
+      class="w-full max-w-[33.33%]"
+      #dateselect
+      styleClass="w-full rounded-r-none"
+      placeholder="วัน"
+      appendTo="body"
+    >
+      <ng-template
+        let-item
+        pTemplate="selectedItem"
+      >
+        {{ valueSelected[0] }}
+      </ng-template>
+    </p-select>
+    <p-select
+      (onChange)="onSelect($event, 1)"
+      [(ngModel)]="valueSelected[1]"
+      [disabled]="disabled"
+      [options]="months"
+      class="w-full max-w-[33.33%]"
+      styleClass="w-full rounded-none"
+      placeholder="เดือน"
+      optionLabel="name"
+      optionValue="value"
+      appendTo="body"
+    />
+    <p-select
+      (onChange)="onSelect($event, 2)"
+      [(ngModel)]="valueSelected[2]"
+      [disabled]="disabled"
+      [options]="years"
+      class="w-full max-w-[33.33%]"
+      styleClass="w-full rounded-l-none"
+      placeholder="ปี"
+      optionValue="ad"
+      appendTo="body"
+    >
+      <ng-template
+        let-item
+        pTemplate="selectedItem"
+      >
+        {{ item.ad }} (พ.ศ.{{ item.be }})
+      </ng-template>
+      <ng-template
+        let-item
+        pTemplate="item"
+      >
+        {{ item.ad }} (พ.ศ.{{ item.be }})
+      </ng-template>
+    </p-select>
+  </div>
+} @else {
+  <div class="flex flex-col gap-2">
+    <p-select
+      (onChange)="onSelect($event, 0)"
+      [(ngModel)]="valueSelected[0]"
+      [options]="dates"
+      #dateselect
+      styleClass="w-full"
+      placeholder="วัน"
+    >
+      <ng-template
+        let-item
+        pTemplate="selectedItem"
+      >
+        {{ valueSelected[0] }}
+      </ng-template>
+    </p-select>
+    <p-select
+      (onChange)="onSelect($event, 1)"
+      [(ngModel)]="valueSelected[1]"
+      [options]="months"
+      placeholder="เดือน"
+      styleClass="w-full"
+      optionLabel="name"
+      optionValue="value"
+    />
+    <p-select
+      (onChange)="onSelect($event, 2)"
+      [(ngModel)]="valueSelected[2]"
+      [options]="years"
+      styleClass="w-full"
+      placeholder="ปี"
+      optionLabel="ad"
+      optionValue="ad"
+    >
+      <ng-template
+        let-item
+        pTemplate="selectedItem"
+      >
+        {{ item.ad }}
+      </ng-template>
+      <ng-template
+        let-item
+        pTemplate="item"
+      >
+        {{ item.ad }} (พ.ศ.{{ item.be }})
+      </ng-template>
+    </p-select>
+  </div>
+}

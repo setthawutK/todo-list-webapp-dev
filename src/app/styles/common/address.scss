@@ -1,0 +1,9 @@
+#address {
+  .p-overlay-content {
+    @apply w-[calc(100dvw-40px)];
+
+    li {
+      @apply text-wrap text-sm;
+    }
+  }
+}

@@ -1,0 +1,71 @@
+@use "sass:string";
+@use "sass:math";
+
+$inner-color: string.unquote("#227ff0");
+$outter-color: string.unquote("#a3bae82e");
+$preload-size: 200px;
+$image-size: 60px;
+
+@mixin box($size) {
+  top: calc(50% - #{math.div($size, 2)});
+  left: calc(50% - #{math.div($size, 2)});
+  width: $size;
+  height: $size;
+}
+
+@mixin circle($color) {
+  border-right-color: $color;
+  border-left-color: $color;
+}
+
+.preloading,
+.preloading:after,
+.preloading:before {
+  position: fixed;
+  border-radius: 50%;
+}
+
+// .preloading:after,
+// .preloading:before {
+//   border-width: 6px;
+//   border-style: solid;
+//   border-color: transparent;
+//   content: "";
+//   animation-duration: 2s;
+//   animation-timing-function: linear;
+//   animation-iteration-count: infinite;
+//   animation-name: spin;
+// }
+
+.preloading {
+  width: 80px;
+  background: url("../../../assets/icons/svg/loading.svg") center center
+    no-repeat;
+  background-size: $image-size;
+  pointer-events: none;
+  // padding: 50px;
+
+  @include box($preload-size);
+}
+
+.preloading:after {
+  @include box($preload-size - 20px);
+  @include circle($outter-color);
+}
+
+.preloading:before {
+  animation-direction: reverse;
+
+  @include box($preload-size - 40px);
+  @include circle($inner-color);
+}
+
+@keyframes spin {
+  0% {
+    transform: rotate(0deg);
+  }
+
+  100% {
+    transform: rotate(360deg);
+  }
+}

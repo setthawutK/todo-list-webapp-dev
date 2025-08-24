@@ -1,0 +1,13 @@
+# copied default
+**/.git
+**/.svn
+**/.hg
+**/node_modules
+
+# ci
+**/swagger
+**/generate
+*.hbs
+
+# dev
+**/.vscode

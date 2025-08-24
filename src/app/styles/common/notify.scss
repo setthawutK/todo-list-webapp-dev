@@ -1,0 +1,6 @@
+.mat-mdc-snack-bar-container {
+  @apply w-full absolute bottom-0 left-0 right-0 bg-transparent m-0 p-4 #{!important};
+  .mat-mdc-snackbar-surface {
+    @apply max-w-[unset] min-w-[unset] bg-white #{!important};
+  }
+}

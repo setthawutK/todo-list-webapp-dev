@@ -1,0 +1,17 @@
+.card {
+    @apply p-4 rounded-lg border border-[#94a3b8];
+}
+
+.form-input {
+    @apply flex flex-col gap-4;
+}
+
+.deleted {
+    @apply bg-functional-foreground-error_subtle_hover pointer-events-none cursor-not-allowed;
+}
+
+:host ::ng-deep {
+    .p-paginator .p-dropdown {
+        @apply flex items-center;
+    }
+}

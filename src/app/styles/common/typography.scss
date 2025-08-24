@@ -1,0 +1,7 @@
+.text-primary {
+  @apply text-primary-content-default;
+}
+
+.text-danger {
+  @apply text-[#CA423C] font-medium;
+}

@@ -1,0 +1,7 @@
+.chip {
+  @apply border border-on_base-border-default w-fit px-[6px] py-[2px] rounded-md font-light text-xs;
+
+  &.relation {
+    @apply text-[#3A8D43] bg-[#E3FAE7];
+  }
+}

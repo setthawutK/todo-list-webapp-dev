@@ -1,0 +1,35 @@
+<p-datepicker
+  [formControl]="formControl"
+  [iconDisplay]="'input'"
+  [showIcon]="true"
+  [readonlyInput]="true"
+  [minDate]="minDate"
+  [yearNavigator]="false"
+  [maxDate]="maxDate"
+  [disabledDates]="holidays"
+  [disabledDays]="[0, 6]"
+  class="w-full"
+  inputId="dates"
+  dateFormat="dd/mm/yy"
+  selectionMode="range"
+  placeholder="เลือกวันแรก - วันสุดท้ายที่ลา"
+  appendTo="body"
+>
+  <ng-template
+    #date
+    let-date
+  >
+    <p
+      [pTooltip]="getInfoHolidays(date)"
+      tooltipPosition="top"
+    >
+      <span
+        [ngClass]="{
+          'holiday-date': isHoliday(date),
+        }"
+      >
+        {{ date.day }}
+      </span>
+    </p>
+  </ng-template>
+</p-datepicker>

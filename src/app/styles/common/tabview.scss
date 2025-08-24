@@ -1,0 +1,34 @@
+.p-tabview-title {
+  @apply font-normal;
+}
+
+.p-tabview {
+  @apply text-sm;
+
+  .p-tabview-nav {
+    @apply bg-transparent border-none;
+
+    li.p-highlight {
+      .p-tabview-nav-link {
+        // @apply border-b-transparent;
+        @apply border-primary-border-default border-b-[3px] rounded-none;
+        &:not(.p-disabled):focus-visible {
+          @apply outline-none;
+          box-shadow: none;
+        }
+      }
+      .p-tabview-title {
+        @apply font-medium  text-primary-content-default;
+      }
+    }
+
+    li:not(.p-highlight) .p-tabview-nav-link {
+      @apply border-none;
+    }
+  }
+
+  .p-tabview-nav .p-tabview-ink-bar {
+    @apply bg-transparent #{!important};
+    // @apply bg-primary-border-default h-[3px] rounded-t-lg #{!important};
+  }
+}

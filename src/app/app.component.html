@@ -1,0 +1,16 @@
+<p-toast></p-toast>
+<router-outlet></router-outlet>
+
+<ng-template
+  [ngIf]="loading$ | async"
+  #portal
+>
+  <div
+    class="backdrop"
+    @fade
+  ></div>
+  <div
+    class="preloading"
+    @fade
+  ></div>
+</ng-template>

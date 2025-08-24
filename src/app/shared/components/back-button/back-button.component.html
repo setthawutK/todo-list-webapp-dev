@@ -1,0 +1,9 @@
+<div class="w-screen h-120 flex flex-row justify-between items-center">
+  <div
+    (click)="click()"
+    class="flex w-fit px-2 py-1 cursor-pointer"
+  >
+    <i class="mb-i mb-i-chevron-left-outline text-2xl"></i>
+  </div>
+  <ng-container *ngTemplateOutlet="actionButton"></ng-container>
+</div>

@@ -1,0 +1,12 @@
+// ng otp input
+.otp-input {
+  &:focus {
+    caret-color: transparent;
+    outline-style: solid;
+    outline-color: #10b981;
+  }
+  &.pin {
+    @apply rounded-full #{!important};
+    // font-family: ui-sans-serif !important;
+  }
+}

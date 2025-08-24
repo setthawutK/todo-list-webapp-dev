@@ -1,0 +1,26 @@
+.ng-touched.ng-invalid {
+  border-color: #e24c4c;
+
+  &.p-calendar,
+  .p-dropdown.true {
+    border: 1px solid #e24c4c !important;
+  }
+}
+
+
+.p-select-header .p-inputtext {
+  background: #ffffff;
+  border: 1px solid #EBEEF2;
+  color: #6A7472;
+  height: 40px !important;
+}
+
+.p-select-header {
+  background: #F6F8FC;
+  padding: 1rem !important;
+}
+
+
+.p-select-empty-message {
+  color: #6A7472;
+}
