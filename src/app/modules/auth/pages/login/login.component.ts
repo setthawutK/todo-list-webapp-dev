@@ -1,12 +1,32 @@
-import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-login',
-  imports: [],
   templateUrl: './login.component.html',
-  styleUrl: './login.component.scss',
-  changeDetection: ChangeDetectionStrategy.OnPush
+  styleUrls: ['./login.component.css']
 })
-export class LoginComponent {
+export class LoginComponent implements OnInit {
+  loginForm!: FormGroup;
 
+  constructor(private fb: FormBuilder, private router: Router) {}
+
+  ngOnInit(): void {
+    this.loginForm = this.fb.group({
+      username: ['', Validators.required],
+      password: ['', Validators.required]
+    });
+  }
+
+  onSubmit(): void {
+    if (this.loginForm.valid) {
+      console.log('Form Submitted', this.loginForm.value);
+      // เพิ่มโค้ดการจัดการการล็อกอินที่นี่
+    }
+  }
+
+  goToRegister(): void {
+    this.router.navigate(['/register']);
+  }
 }

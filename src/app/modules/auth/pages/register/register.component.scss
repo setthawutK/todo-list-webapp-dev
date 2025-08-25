@@ -1,0 +1,83 @@
+/* register.component.scss - สไตล์สำหรับหน้า Register แบบเคลียร์และอ่านง่าย */
+
+body, html {
+  font-family: 'Segoe UI', 'Prompt', Arial, sans-serif;
+  background: linear-gradient(135deg, #e0e7ff 0%, #f0fdfa 100%);
+}
+
+.min-h-screen {
+  min-height: 100vh;
+}
+
+.bg-white {
+  background: #fff;
+  box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.15);
+  border-radius: 1.5rem;
+}
+
+input[type="text"], input[type="password"] {
+  transition: border 0.2s, box-shadow 0.2s;
+  font-size: 1rem;
+  border-radius: 0.5rem;
+  border: 1px solid #d1d5db;
+  padding: 0.75rem 1rem;
+  margin-top: 0.25rem;
+}
+
+input[type="text"].invalid, input[type="password"].invalid {
+  border: 1.5px solid #ef4444;
+  background: #fef2f2;
+}
+
+input[type="text"]:focus, input[type="password"]:focus {
+  border-color: #6366f1;
+  box-shadow: 0 0 0 2px #6366f1;
+  background: #f0f9ff;
+}
+
+button {
+  font-size: 1rem;
+  font-weight: 600;
+  border-radius: 0.75rem;
+  transition: background 0.2s, color 0.2s, box-shadow 0.2s;
+}
+
+button[type="submit"] {
+  background: linear-gradient(90deg, #6366f1 0%, #14b8a6 100%);
+  color: #fff;
+  box-shadow: 0 2px 8px 0 rgba(99, 102, 241, 0.10);
+  margin-bottom: 0.5rem;
+}
+
+button[type="submit"]:hover {
+  background: linear-gradient(90deg, #4f46e5 0%, #0d9488 100%);
+}
+
+button:active {
+  transform: scale(0.98);
+}
+
+button[type="button"] {
+  background: #fff;
+  color: #2563eb;
+  border: 1.5px solid #93c5fd;
+  margin-bottom: 0.5rem;
+}
+
+button[type="button"]:hover {
+  background: #f0f9ff;
+  color: #0ea5e9;
+}
+
+.text-red-500 {
+  color: #ef4444;
+  font-size: 0.85rem;
+  margin-top: 0.25rem;
+}
+
+@media (max-width: 500px) {
+  .max-w-md {
+    max-width: 95vw;
+    padding: 1rem;
+  }
+}

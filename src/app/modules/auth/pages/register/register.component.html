@@ -1,1 +1,112 @@
-<p>register works!</p>
+<div class="flex items-center justify-center min-h-screen bg-gradient-to-br from-blue-100 to-teal-100">
+  <div class="bg-white p-8 rounded-2xl shadow-2xl w-full max-w-md flex flex-col items-center">
+    <div class="flex flex-col items-center mb-6">
+      <div class="bg-blue-100 rounded-full p-4 mb-2">
+        <svg
+          class="text-blue-500"
+          width="36"
+          height="36"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="2"
+          viewBox="0 0 24 24"
+        >
+          <path
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            d="M12 11c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zm0 2c-2.67 0-8 1.337-8 4v3h16v-3c0-2.663-5.33-4-8-4z"
+          />
+        </svg>
+      </div>
+      <h2 class="text-3xl font-extrabold text-blue-700 mb-1">สมัครสมาชิก</h2>
+      <p class="text-gray-500 text-sm">สร้างบัญชีใหม่เพื่อใช้งาน Todo List</p>
+    </div>
+    <form
+      (ngSubmit)="onSubmit()"
+      [formGroup]="registerForm"
+      class="w-full"
+    >
+      <div class="mb-4">
+        <label
+          class="block text-sm font-medium text-gray-700"
+          for="username"
+          >Username</label
+        >
+        <input
+          [class.invalid]="registerForm.get('username')?.invalid && registerForm.get('username')?.touched"
+          class="w-full p-3 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-400"
+          id="username"
+          type="text"
+          formControlName="username"
+          placeholder="ชื่อผู้ใช้"
+        />
+        <div
+          *ngIf="registerForm.get('username')?.invalid && registerForm.get('username')?.touched"
+          class="text-red-500 text-xs mt-1"
+        >
+          กรุณากรอกชื่อผู้ใช้
+        </div>
+      </div>
+      <div class="mb-4">
+        <label
+          class="block text-sm font-medium text-gray-700"
+          for="password"
+          >Password</label
+        >
+        <input
+          [class.invalid]="registerForm.get('password')?.invalid && registerForm.get('password')?.touched"
+          class="w-full p-3 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-400"
+          id="password"
+          type="password"
+          formControlName="password"
+          placeholder="รหัสผ่าน"
+        />
+        <div
+          *ngIf="registerForm.get('password')?.invalid && registerForm.get('password')?.touched"
+          class="text-red-500 text-xs mt-1"
+        >
+          กรุณากรอกรหัสผ่าน
+        </div>
+      </div>
+      <div class="mb-6">
+        <label
+          class="block text-sm font-medium text-gray-700"
+          for="confirmPassword"
+          >ยืนยันรหัสผ่าน</label
+        >
+        <input
+          [class.invalid]="registerForm.get('confirmPassword')?.invalid && registerForm.get('confirmPassword')?.touched"
+          class="w-full p-3 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-400"
+          id="confirmPassword"
+          type="password"
+          formControlName="confirmPassword"
+          placeholder="ยืนยันรหัสผ่าน"
+        />
+        <div
+          *ngIf="registerForm.get('confirmPassword')?.invalid && registerForm.get('confirmPassword')?.touched"
+          class="text-red-500 text-xs mt-1"
+        >
+          กรุณายืนยันรหัสผ่าน
+        </div>
+      </div>
+      <button
+        class="w-full bg-gradient-to-r from-blue-500 to-teal-400 text-white py-3 rounded-lg font-bold shadow-md hover:from-blue-600 hover:to-teal-500 transition mb-2"
+        type="submit"
+      >
+        สมัครสมาชิก
+      </button>
+      <div class="flex items-center my-4">
+        <div class="flex-grow border-t border-gray-200"></div>
+        <span class="mx-2 text-gray-400 text-xs">หรือ</span>
+        <div class="flex-grow border-t border-gray-200"></div>
+      </div>
+      <button
+        (click)="goToLogin()"
+        class="w-full bg-white border border-blue-300 text-blue-600 py-3 rounded-lg font-bold shadow hover:bg-blue-50 transition"
+        type="button"
+      >
+        กลับเข้าสู่ระบบ
+      </button>
+    </form>
+  </div>
+</div>
