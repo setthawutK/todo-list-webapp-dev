@@ -1,0 +1,145 @@
+<!-- พื้นหลังไล่เฉด  -->
+<div class="min-h-screen bg-gradient-to-br from-sky-50 via-cyan-50 to-cyan-100 flex items-center justify-center px-4 py-10">
+  <div class="w-full max-w-3xl">
+    <!-- การ์ด -->
+    <div class="bg-white rounded-2xl shadow-xl ring-1 ring-black/5 overflow-hidden">
+      
+      <div class="p-6 border-b border-slate-100">
+        <h1 class="text-2xl md:text-3xl font-extrabold text-sky-700 text-center">To Do List</h1>
+
+        <!-- Add Task -->
+        <form class="mt-4 flex justify-center" (ngSubmit)="add()">
+          <div class="flex w-full max-w-xl">
+            <input
+              [(ngModel)]="draft"
+              name="draft"
+              placeholder="Add a new task..."
+              autocomplete="off"
+              class="flex-1 px-4 py-2.5 rounded-l-full border border-sky-300 focus:outline-none focus:ring-2 focus:ring-sky-400"
+            />
+            <button
+              type="submit"
+              [disabled]="!draft.trim()"
+              class="px-5 py-2.5 rounded-r-full bg-gradient-to-r from-sky-600 to-teal-500 text-white font-semibold border border-sky-600 disabled:opacity-60"
+            >
+              Add
+            </button>
+          </div>
+        </form>
+      </div>
+
+      <!-- รายการงาน -->
+      <div class="p-6">
+        <h2 class="text-sky-700 font-semibold mb-3">Task List</h2>
+
+        <ul *ngIf="pagedItems().length; else emptyTpl" class="space-y-2">
+          <li
+            *ngFor="let t of pagedItems()"
+            class="flex items-center justify-between gap-3 rounded-xl border border-slate-200 bg-slate-50 px-4 py-2.5 hover:bg-white hover:shadow-sm transition"
+          >
+            <label class="flex items-center gap-3 flex-1">
+              <input
+                type="checkbox"
+                [checked]="t.done"
+                (change)="toggle(t.id)"
+                class="h-4 w-4 accent-sky-600"
+              />
+
+              <!-- โหมดแสดง / โหมดแก้ไข -->
+              <ng-container *ngIf="!t.editing; else editTpl">
+                <span
+                  [ngClass]="t.done ? 'line-through text-slate-400' : 'text-slate-700'"
+                  class="text-base"
+                >
+                  {{ t.text }}
+                </span>
+              </ng-container>
+
+              <ng-template #editTpl>
+                <input
+                  [(ngModel)]="editDraft[t.id]"
+                  name="{{ 'edit-' + t.id }}"
+                  (keyup.enter)="saveEdit(t.id)"
+                  (keyup.escape)="cancelEdit(t.id)"
+                  class="min-w-[260px] px-3 py-2 rounded-md border border-slate-300 focus:outline-none focus:ring-2 focus:ring-sky-400"
+                />
+              </ng-template>
+            </label>
+
+            <!-- ปุ่ม -->
+            <div class="flex items-center gap-2">
+              <button class="text-rose-600 font-semibold hover:underline" (click)="remove(t.id)">
+                Delete
+              </button>
+
+              <button
+                *ngIf="!t.editing; else saveCancelTpl"
+                class="text-sky-700 font-semibold hover:underline"
+                (click)="startEdit(t.id)"
+              >
+                Edit
+              </button>
+
+              <ng-template #saveCancelTpl>
+                <button
+                  class="px-3 py-1 rounded-md bg-gradient-to-r from-sky-600 to-teal-500 text-white font-semibold"
+                  (click)="saveEdit(t.id)"
+                >
+                  Save
+                </button>
+                <button class="text-sky-700 font-semibold hover:underline" (click)="cancelEdit(t.id)">
+                  Cancel
+                </button>
+              </ng-template>
+            </div>
+          </li>
+        </ul>
+
+        <ng-template #emptyTpl>
+          <p class="text-center text-slate-500">No tasks yet — add one above!</p>
+        </ng-template>
+
+        <!-- สรุป -->
+        <div class="mt-4 flex items-center justify-center gap-3 text-sm">
+          <span class="px-3 py-1 rounded-full bg-sky-50 text-sky-700 ring-1 ring-sky-200">
+            Completed: {{ completed }}
+          </span>
+          <span class="px-3 py-1 rounded-full bg-teal-50 text-teal-700 ring-1 ring-teal-200">
+            Uncompleted: {{ uncompleted }}
+          </span>
+        </div>
+      </div>
+
+      <!-- Pagination -->
+      <div *ngIf="totalPages() > 1" class="px-6 pb-6">
+        <div class="flex justify-center items-center gap-2">
+          <button
+            class="w-8 h-8 rounded-full border border-sky-300 text-sky-700 hover:bg-sky-50"
+            (click)="prev()"
+          >
+            ‹
+          </button>
+
+          <button
+            *ngFor="let p of pageNumbers()"
+            (click)="go(p)"
+            class="w-8 h-8 rounded-full border border-sky-300"
+            [ngClass]="p === page()
+              ? 'bg-gradient-to-r from-sky-600 to-teal-500 text-white border-sky-600'
+              : 'text-sky-700 hover:bg-sky-50'"
+          >
+            {{ p }}
+          </button>
+
+          <button
+            class="w-8 h-8 rounded-full border border-sky-300 text-sky-700 hover:bg-sky-50"
+            (click)="next()"
+          >
+            ›
+          </button>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>

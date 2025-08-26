@@ -1,31 +1,38 @@
-// import { FullscreenOverlayContainer } from '@angular/cdk/overlay';
 import { Routes } from '@angular/router';
 
 export const routes: Routes = [
-  // {
-  //   path: 'example',
-  //   component: ExampleComponent,
-  // },
+  // ✅ ให้ root เด้งไปหน้า todo ก่อน
   {
     path: '',
-    redirectTo: 'not-found',
+    redirectTo: 'todo',
     pathMatch: 'full',
   },
-  // {
-  //   path: 'test',
-  //   canActivate: [],
-  //   loadComponent: () => import('./modules/login/pages/login/login.component').then(m => m.LoginComponent),
-  // },
+
   {
     path: '',
     canActivate: [],
     children: [
+      // ✅ route หน้า Todo
+      {
+        path: 'todo',
+        loadComponent: () =>
+          import('./modules/todo/todo.component').then(
+            (m) => m.TodoComponent
+          ),
+      },
+
+      // ✅ route หน้า not-found
       {
         path: 'not-found',
-        loadComponent: () => import('./modules/error-page/pages/not-found/not-found.component').then(m => m.NotFoundComponent),
+        loadComponent: () =>
+          import('./modules/error-page/pages/not-found/not-found.component').then(
+            (m) => m.NotFoundComponent
+          ),
       },
     ],
   },
+
+  // ✅ wildcard -> not-found
   {
     path: '**',
     redirectTo: 'not-found',
