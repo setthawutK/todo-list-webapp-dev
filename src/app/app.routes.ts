@@ -8,14 +8,19 @@ export const routes: Routes = [
   // },
   {
     path: '',
-    redirectTo: 'not-found',
+    redirectTo: 'login',
     pathMatch: 'full',
   },
-  // {
-  //   path: 'test',
-  //   canActivate: [],
-  //   loadComponent: () => import('./modules/login/pages/login/login.component').then(m => m.LoginComponent),
-  // },
+  {
+    path: 'login',
+    canActivate: [],
+    loadComponent: () => import('./modules/auth/pages/login/login.component').then(m => m.LoginComponent),
+  },
+  {
+    path: 'register',
+    canActivate: [],
+    loadComponent: () => import('./modules/auth/pages/register/register.component').then(m => m.RegisterComponent),
+  },
   {
     path: '',
     canActivate: [],
