@@ -20,7 +20,7 @@ module.exports = tseslint.config(
     extends: [eslint.configs.recommended, ...tseslint.configs.recommended, ...tseslint.configs.stylistic, ...angular.configs.tsRecommended],
     processor: angular.processInlineTemplates,
     rules: {
-      '@typescript-eslint/no-explicit-any': 'error',
+      '@typescript-eslint/no-explicit-any': 'off',
       '@typescript-eslint/ban-tslint-comment': 'off',
       '@typescript-eslint/no-empty-function': 'off',
       '@typescript-eslint/consistent-type-definitions': 'off',

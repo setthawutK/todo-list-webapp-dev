@@ -39,8 +39,6 @@ $image-size: 60px;
 
 .preloading {
   width: 80px;
-  background: url("../../../assets/icons/svg/loading.svg") center center
-    no-repeat;
   background-size: $image-size;
   pointer-events: none;
   // padding: 50px;

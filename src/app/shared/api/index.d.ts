@@ -17,4 +17,10 @@ declare const enum ExampleAPI {
   // customerApiV1PoliciesClaims$1Cancel = `${PATH}/customer/api/v1/policies/claims/$1/cancel`,
 }
 
-declare const enum todoListAPI {}
+declare const enum todoListAPI {
+  authLogin = `${PATH}/auth/login`,
+  authLoginFinishedShowlist = `${PATH}auth/loginFinished/showlist`,
+  createlist = `${PATH}/createlist`,
+  delete = `${PATH}/delete`,
+  updateUp = `${PATH}/updateUp`,
+}

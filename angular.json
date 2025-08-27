@@ -34,7 +34,6 @@
             ],
             "styles": [
               "src/styles.scss",
-              "src/assets/generate/icon-font/m-icon/x-icon.css",
               "build/token/css/variables.css"
             ],
             "scripts": [],
