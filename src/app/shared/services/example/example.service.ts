@@ -1,65 +1,61 @@
-import { HttpClient, HttpParams } from '@angular/common/http';
-import { inject, Injectable } from '@angular/core';
-import { withParams } from '@shared/network';
-import {
-  ActiveUserReqDto,
-  CreateUserReqDto,
-  DeleteUserReqDto,
-  SuccessResponseIdResponseLong,
-  SuccessResponsePagedModelSearchUserResDto,
-  SuccessResponseSearchUserCountResDto,
-  SuccessResponseUploadFileRes,
-  SuccessResponseUserResDto,
-  SuccessResponseVoid,
-  UpdateUserReqDto,
-} from '@shared/swagger/example/Api';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
+
+export interface TodoApiItem {
+  orderID: string;
+  dairy_info: string;
+  check: boolean;
+}
 
 @Injectable({
   providedIn: 'root',
 })
 export class ExampleService {
-  private readonly _httpClient: HttpClient = inject(HttpClient);
+  private readonly baseUrl = 'http://localhost:7001';
 
-  getUsers(path: HttpParams): Observable<SuccessResponsePagedModelSearchUserResDto> {
-    return this._httpClient.get<SuccessResponsePagedModelSearchUserResDto>(ExampleAPI.userApiV1Users, {
-      params: path,
-    });
+  constructor(private _httpClient: HttpClient) {}
+
+  // ฟังก์ชันดึงข้อมูล loginFinished (GET)
+  getLoginFinished(token: string): Observable<TodoApiItem[]> {
+    const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
+    return this._httpClient.get<TodoApiItem[]>(
+      `${this.baseUrl}/auth/loginFinished/showlist`,
+      { headers }
+    );
   }
 
-  getUserById(id: number): Observable<SuccessResponseUserResDto> {
-    return this._httpClient.get<SuccessResponseUserResDto>(withParams(ExampleAPI.userApiV1Users$1Info, id));
+  // ฟังก์ชันเพิ่มงานใหม่ (POST) 
+  addTask(dailyInfo: string, token: string): Observable<TodoApiItem> {
+    const headers = new HttpHeaders()
+      .set('Authorization', `Bearer ${token}`)
+      .set('Content-Type', 'application/json');
+
+    return this._httpClient.post<TodoApiItem>(
+      `${this.baseUrl}/create-list`,
+      { daily_info: dailyInfo },
+      { headers }
+    );
   }
 
-  getUsersCount(path: HttpParams): Observable<SuccessResponseSearchUserCountResDto> {
-    return this._httpClient.get<SuccessResponseSearchUserCountResDto>(ExampleAPI.userApiV1UsersCount, {
-      params: path,
-    });
+  // ฟังก์ชันอัปเดตงาน (PATCH) 
+  updateTask(orderID: string, dairyInfo: string, check: boolean, token: string): Observable<TodoApiItem> {
+    const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
+    return this._httpClient.patch<TodoApiItem>(
+      `${this.baseUrl}/updateUp`,
+      { orderID, dairy_info: dairyInfo, check },
+      { headers }
+    );
   }
 
-  createUser(body: CreateUserReqDto): Observable<SuccessResponseIdResponseLong> {
-    return this._httpClient.post<SuccessResponseIdResponseLong>(ExampleAPI.userApiV1UsersCreate, body);
+  // ฟังก์ชันลบงาน (DELETE) 
+  deleteTask(orderID: string, token: string): Observable<void> {
+    const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
+    return this._httpClient.delete<void>(
+      `${this.baseUrl}/delete?orderID=${orderID}`,
+      { headers }
+    );
   }
 
-  updateUser(body: UpdateUserReqDto, id: number): Observable<SuccessResponseVoid> {
-    return this._httpClient.put<SuccessResponseVoid>(withParams(ExampleAPI.userApiV1Users$1Update, id), body);
-  }
-
-  deleteUser(body: DeleteUserReqDto, id: number): Observable<SuccessResponseVoid> {
-    return this._httpClient.put<SuccessResponseVoid>(withParams(ExampleAPI.userApiV1Users$1Deleted, id), body);
-  }
-
-  activeUser(body: ActiveUserReqDto, id: number): Observable<SuccessResponseVoid> {
-    return this._httpClient.put<SuccessResponseVoid>(withParams(ExampleAPI.userApiV1Users$1Active, id), body);
-  }
-
-  uploadImg(body: FormData) {
-    return this._httpClient.post<SuccessResponseUploadFileRes>(ExampleAPI.userApiV1UsersUploadImage, body);
-  }
-
-  getUploadFileBody(file: File): FormData {
-    const formData = new FormData();
-    formData.append('file', file);
-    return formData;
-  }
 }
+

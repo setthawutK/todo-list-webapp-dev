@@ -1,11 +1,14 @@
 <!-- พื้นหลังไล่เฉด-->
 <div class="min-h-screen bg-gradient-to-br from-sky-50 via-cyan-50 to-cyan-100 flex items-center justify-center px-4 py-10">
-  <div class="w-full max-w-3xl">
+  <div class="w-full max-w-6xl">
     
     <div class="bg-white rounded-2xl shadow-xl ring-1 ring-black/5 overflow-hidden">
       
       <div class="p-6 border-b border-slate-100">
         <h1 class="text-2xl md:text-3xl font-extrabold text-sky-700 text-center">To Do List</h1>
+
+        <!-- แสดง error -->
+        <div *ngIf="error()" class="text-center text-rose-500 mt-4">{{ error() }}</div>
 
         <!-- Add Task -->
         <form class="mt-4 flex justify-center" (ngSubmit)="add()">
@@ -19,7 +22,7 @@
             />
             <button
               type="submit"
-              [disabled]="!draft.trim()"
+              [disabled]="!draft().trim() || loading()"
               class="px-5 py-2.5 rounded-r-full bg-gradient-to-r from-sky-600 to-teal-500 text-white font-semibold border border-sky-600 disabled:opacity-60"
             >
               Add
@@ -32,7 +35,10 @@
       <div class="p-6">
         <h2 class="text-sky-700 font-semibold mb-3">Task List</h2>
 
-        <ul *ngIf="pagedItems().length; else emptyTpl" class="space-y-2">
+        <!-- แสดง loading -->
+        <div *ngIf="loading()" class="text-center text-slate-500">Loading tasks...</div>
+
+        <ul *ngIf="pagedItems().length && !loading(); else emptyTpl" class="space-y-2">
           <li
             *ngFor="let t of pagedItems()"
             class="flex items-center justify-between gap-3 rounded-xl border border-slate-200 bg-slate-50 px-4 py-2.5 hover:bg-white hover:shadow-sm transition"
@@ -43,6 +49,7 @@
                 [checked]="t.done"
                 (change)="toggle(t.id)"
                 class="h-4 w-4 accent-sky-600"
+                [disabled]="loading()"
               />
 
               <!-- โหมดแสดง / โหมดแก้ไข -->
@@ -62,13 +69,14 @@
                   (keyup.enter)="saveEdit(t.id)"
                   (keyup.escape)="cancelEdit(t.id)"
                   class="min-w-[260px] px-3 py-2 rounded-md border border-slate-300 focus:outline-none focus:ring-2 focus:ring-sky-400"
+                  [disabled]="loading()"
                 />
               </ng-template>
             </label>
 
             <!-- ปุ่ม -->
             <div class="flex items-center gap-2">
-              <button class="text-rose-600 font-semibold hover:underline" (click)="remove(t.id)">
+              <button class="text-rose-600 font-semibold hover:underline" (click)="remove(t.id)" [disabled]="loading()">
                 Delete
               </button>
 
@@ -76,6 +84,7 @@
                 *ngIf="!t.editing; else saveCancelTpl"
                 class="text-sky-700 font-semibold hover:underline"
                 (click)="startEdit(t.id)"
+                [disabled]="loading()"
               >
                 Edit
               </button>
@@ -84,10 +93,11 @@
                 <button
                   class="px-3 py-1 rounded-md bg-gradient-to-r from-sky-600 to-teal-500 text-white font-semibold"
                   (click)="saveEdit(t.id)"
+                  [disabled]="loading()"
                 >
                   Save
                 </button>
-                <button class="text-sky-700 font-semibold hover:underline" (click)="cancelEdit(t.id)">
+                <button class="text-sky-700 font-semibold hover:underline" (click)="cancelEdit(t.id)" [disabled]="loading()">
                   Cancel
                 </button>
               </ng-template>
@@ -96,7 +106,7 @@
         </ul>
 
         <ng-template #emptyTpl>
-          <p class="text-center text-slate-500">No tasks yet — add one above!</p>
+          <p *ngIf="!loading()" class="text-center text-slate-500">No tasks yet — add one above!</p>
         </ng-template>
 
         <!-- สรุป -->
@@ -116,6 +126,7 @@
           <button
             class="w-8 h-8 rounded-full border border-sky-300 text-sky-700 hover:bg-sky-50"
             (click)="prev()"
+            [disabled]="loading()"
           >
             ‹
           </button>
@@ -127,6 +138,7 @@
             [ngClass]="p === page()
               ? 'bg-gradient-to-r from-sky-600 to-teal-500 text-white border-sky-600'
               : 'text-sky-700 hover:bg-sky-50'"
+            [disabled]="loading()"
           >
             {{ p }}
           </button>
@@ -134,6 +146,7 @@
           <button
             class="w-8 h-8 rounded-full border border-sky-300 text-sky-700 hover:bg-sky-50"
             (click)="next()"
+            [disabled]="loading()"
           >
             ›
           </button>
@@ -143,3 +156,4 @@
     </div>
   </div>
 </div>
+

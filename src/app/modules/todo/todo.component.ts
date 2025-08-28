@@ -1,15 +1,10 @@
-import {
-  ChangeDetectionStrategy,
-  Component,
-  computed,
-
-  signal,
-} from '@angular/core';
+import { ChangeDetectionStrategy, Component, computed, signal } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { NgFor, NgIf, NgClass } from '@angular/common';
+import { ExampleService, TodoApiItem } from '../../shared/services/example/example.service';
+import { Router } from '@angular/router';
 
 type Todo = { id: string; text: string; done: boolean; editing?: boolean };
-const STORAGE_KEY = 'todo-items';
 
 @Component({
   selector: 'app-todo',
@@ -20,11 +15,14 @@ const STORAGE_KEY = 'todo-items';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class TodoComponent {
-  draft = '';
+  draft = signal('');
   items = signal<Todo[]>([]);
   editDraft: Record<string, string> = {};
+  token: string;
+  loading = signal(false);
+  error = signal<string | null>(null);
 
-  // pagination
+  // Pagination
   pageSize = signal(5);
   page = signal(1);
   totalPages = computed(() =>
@@ -37,71 +35,155 @@ export class TodoComponent {
     const start = (this.page() - 1) * this.pageSize();
     return this.items().slice(start, start + this.pageSize());
   });
-  
-  constructor() {
-    const raw = localStorage.getItem(STORAGE_KEY);
-    if (raw) {
-      try {
-        this.items.set(JSON.parse(raw));
-      } catch {
-        // ignore JSON parse error
-      }
+
+  constructor(private exampleService: ExampleService, private router: Router) {
+    this.token = localStorage.getItem('authToken') || '';
+    if (!this.token) {
+      this.router.navigate(['/login']);
+    } else {
+      this.loadTodos();
     }
-    // eslint: no-empty -- ไม่ใช้ effect แล้ว
-    // localStorage.setItem(STORAGE_KEY, JSON.stringify(this.items()));
-    // if (this.page() > this.totalPages()) this.page.set(this.totalPages());
   }
 
+  // โหลดข้อมูลจาก API
+  loadTodos() {
+    this.loading.set(true);
+    this.error.set(null);
+    this.exampleService.getLoginFinished(this.token).subscribe({
+      next: (response: TodoApiItem[]) => {
+        const todos: Todo[] = response.map((item) => ({
+          id: item.orderID,
+          text: item.dairy_info,
+          done: item.check,
+          editing: false,
+        }));
+        this.items.set(todos);
+        this.loading.set(false);
+      },
+      error: (err) => {
+        if (err.status === 401) {
+          this.router.navigate(['/login']);
+        }
+        this.error.set('Failed to load tasks. Please try again.');
+        this.loading.set(false);
+      },
+    });
+  }
+
+  // เพิ่มงานใหม่
   add() {
-    const text = this.draft.trim();
+    const text = this.draft().trim();
     if (!text) return;
-    this.items.update(list => [{ id: crypto.randomUUID(), text, done: false }, ...list]);
-    this.draft = '';
-    this.page.set(1);
+
+    this.loading.set(true);
+    this.error.set(null);
+    this.exampleService.addTask(text, this.token).subscribe({
+      next: (response: TodoApiItem) => {
+        this.items.update((list) => [
+          { id: response.orderID, text: response.dairy_info, done: response.check, editing: false },
+          ...list,
+        ]);
+        this.draft.set('');
+        this.page.set(1);
+        this.loading.set(false);
+      },
+      error: () => {
+        this.error.set('Failed to add task. Please try again.');
+        this.loading.set(false);
+      },
+    });
   }
 
+  // สลับสถานะ done/undone
   toggle(id: string) {
-    this.items.update(list =>
-      list.map(t => (t.id === id ? { ...t, done: !t.done } : t))
-    );
+    const item = this.items().find((t) => t.id === id);
+    if (!item) return;
+
+    this.loading.set(true);
+    this.error.set(null);
+    this.exampleService.updateTask(id, item.text, !item.done, this.token).subscribe({
+      next: () => {
+        this.items.update((list) =>
+          list.map((t) => (t.id === id ? { ...t, done: !t.done } : t))
+        );
+        this.loading.set(false);
+      },
+      error: () => {
+        this.error.set('Failed to update task. Please try again.');
+        this.loading.set(false);
+      },
+    });
   }
 
+  // ลบงาน
   remove(id: string) {
-    this.items.update(list => list.filter(t => t.id !== id));
-    if (this.pagedItems().length === 0 && this.page() > 1) this.page.set(this.page() - 1);
+    this.loading.set(true);
+    this.error.set(null);
+    this.exampleService.deleteTask(id, this.token).subscribe({
+      next: () => {
+        this.items.update((list) => list.filter((t) => t.id !== id));
+        if (this.pagedItems().length === 0 && this.page() > 1) {
+          this.page.set(this.page() - 1);
+        }
+        this.loading.set(false);
+      },
+      error: () => {
+        this.error.set('Failed to delete task. Please try again.');
+        this.loading.set(false);
+      },
+    });
   }
 
+  // เริ่มแก้ไข
   startEdit(id: string) {
-    this.items.update(list =>
-      list.map(t => (t.id === id ? { ...t, editing: true } : t))
+    this.items.update((list) =>
+      list.map((t) => (t.id === id ? { ...t, editing: true } : t))
     );
-    const item = this.items().find(t => t.id === id);
+    const item = this.items().find((t) => t.id === id);
     if (item) this.editDraft[id] = item.text;
   }
 
+  // บันทึกการแก้ไข
   saveEdit(id: string) {
     const text = (this.editDraft[id] ?? '').trim();
     if (!text) return;
-    this.items.update(list =>
-      list.map(t => (t.id === id ? { ...t, text, editing: false } : t))
-    );
-    delete this.editDraft[id];
+
+    this.loading.set(true);
+    this.error.set(null);
+    const current = this.items().find((t) => t.id === id);
+    if (!current) return;
+
+    this.exampleService.updateTask(id, text, current.done, this.token).subscribe({
+      next: () => {
+        this.items.update((list) =>
+          list.map((t) => (t.id === id ? { ...t, text, editing: false } : t))
+        );
+        delete this.editDraft[id];
+        this.loading.set(false);
+      },
+      error: () => {
+        this.error.set('Failed to save task. Please try again.');
+        this.loading.set(false);
+      },
+    });
   }
 
+  // ยกเลิกการแก้ไข
   cancelEdit(id: string) {
-    this.items.update(list =>
-      list.map(t => (t.id === id ? { ...t, editing: false } : t))
+    this.items.update((list) =>
+      list.map((t) => (t.id === id ? { ...t, editing: false } : t))
     );
     delete this.editDraft[id];
   }
 
-  // pagination controls
-  go(p: number) { if (p >= 1 && p <= this.totalPages()) this.page.set(p); }
+  // Pagination controls
+  go(p: number) {
+    if (p >= 1 && p <= this.totalPages()) this.page.set(p);
+  }
   prev() { this.go(this.page() - 1); }
   next() { this.go(this.page() + 1); }
 
-  // counters
-  get completed() { return this.items().filter(t => t.done).length; }
-  get uncompleted() { return this.items().filter(t => !t.done).length; }
-
+  // Counters
+  get completed() { return this.items().filter((t) => t.done).length; }
+  get uncompleted() { return this.items().filter((t) => !t.done).length; }
 }
